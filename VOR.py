@@ -31,6 +31,10 @@ def error_function_calls_not_to_main():
     print("Error: Function call to a function other than main is found. This is not the way of VOR.")
     sys.exit(1)
 
+def error_function_declarations():
+    print("Error: Function declaration other than main found. This is not the way of VOR.")
+    sys.exit(1)
+
 
 def remove_comments(code):
     # Remove single line comments
@@ -121,13 +125,33 @@ def check_function_calls():
         if len(part.strip(" \n\t\r")) == 0:
             continue
         potential_function = part.split()[-1].strip(" \n\t\r")
-        print(potential_function)
         # Determine if this is an illegal function call
         if potential_function not in ["main", "for", "while", "if", "switch", "return"] and potential_function[-1].isalnum():
             error_function_calls_not_to_main()
+
+def check_function_declarations():
+    code = remove_comments(get_code())
+    parenthesis_level = 0
+    brace_level = 0
+    for i in range(len(code)):
+        if code[i] == "(" and parenthesis_level == 0 and brace_level == 0:
+            print(code[i-5:i+5])
+            potential_function = code[:i].split()[-1].strip(" \n\t\r")
+            if potential_function not in ["main"] and potential_function[-1].isalnum():
+                error_function_declarations()
+        if code[i] == "(":
+            parenthesis_level += 1
+        elif code[i] == ")":
+            parenthesis_level -= 1
+        elif code[i] == "{":
+            brace_level += 1
+        elif code[i] == "}":
+            brace_level -= 1
+
         
 def main():
     check_num_arguments()
     check_function_calls()
+    check_function_declarations()
 
 main()
