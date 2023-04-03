@@ -1,0 +1,35 @@
+#include <iostream>
+
+using namespace std;
+
+int i = 0;
+/* asd */
+
+
+//
+//int argc = 0;
+//char *argv[] = {0};
+
+int argc = 0;
+char *argv[] = {0};
+
+// main function
+int *
+main(int argc, char *argv[])
+{
+    cout << "Hello, c++ world! " << i << endl;
+    i++;
+    /* Multi
+
+Lined
+
+   comment
+    */
+
+    if (i < 10)
+    {
+        // the recursive bit
+        main(argc, argv);
+    }
+    return 0; // hheh
+}
