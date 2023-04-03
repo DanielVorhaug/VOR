@@ -7,25 +7,28 @@ c_data_types = ["void", "char", "short", "int", "signed", "unsigned", "long", "f
 
 
 def error_invalid_number_of_arguments():
-    print("Error: Invalid number of arguments")
+    print("Error: Invalid number of arguments.")
     sys.exit(1)
 
 
 def error_invalid_file_name():
-    print("Error: Invalid file name")
+    print("Error: Invalid file name.")
     sys.exit(1)
 
-
 def error_no_main():
-    print("Error: No main function found")
+    print("Error: No main function found.")
     sys.exit(1)
 
 def error_multiple_main_functions():
-    print("Error: Multiple main functions found")
+    print("Error: Multiple main functions found.")
     sys.exit(1)
 
 def error_could_not_find_main_body():
-    print("Error: Could not find main function body")
+    print("Error: Could not find main function body.")
+    sys.exit(1)
+
+def error_function_calls_not_to_main():
+    print("Error: Function call to a function other than main is found. This is not the way of VOR.")
     sys.exit(1)
 
 
@@ -109,12 +112,22 @@ def check_num_arguments():
     if len(sys.argv) != 2:
         error_invalid_number_of_arguments()
 
-def check_for_function_calls():
+def check_function_calls():
     main_body = get_main_body()
-    print(main_body)
+
+    # Look for cases of where '(' is used
+    main_body = main_body.split("(")[:-1] # Remove the last element since that one cannot be a function call
+    for part in main_body:
+        if len(part.strip(" \n\t\r")) == 0:
+            continue
+        potential_function = part.split()[-1].strip(" \n\t\r")
+        print(potential_function)
+        # Determine if this is an illegal function call
+        if potential_function not in ["main", "for", "while", "if", "switch", "return"] and potential_function[-1].isalnum():
+            error_function_calls_not_to_main()
         
 def main():
     check_num_arguments()
-    check_for_function_calls()
+    check_function_calls()
 
 main()

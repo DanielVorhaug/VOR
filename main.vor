@@ -18,18 +18,19 @@ int *
 main(int argc, char *argv[])
 {
     cout << "Hello, c++ world! " << i << endl;
-    i++;
+    (i++);
     /* Multi
 
 Lined
-
+()
    comment
     */
 
-    if (i < 10)
+    if ( ((i) < (10)))
     {
         // the recursive bit
         main(argc, argv);
+        // DoDirtyDeeds();
     }
     return 0; // hheh
 }
