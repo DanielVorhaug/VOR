@@ -1,2 +1,8 @@
 
 .vscode/
+
+build/
+
+dist/
+
+*.spec
