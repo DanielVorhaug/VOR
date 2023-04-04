@@ -22,5 +22,14 @@ Not really.
 - g++
 
 ## How do I use the VOR compiler?
-Call the compiler python script with the target file as the argument. For example:
-`python .\VOR.py "main.vor"`
+Extract the included VOR executable, or build your own by using pyinstaller:
+- Install pyinstaller: `pip install pyinstaller`
+- Make the executable: `pyinstaller -F .\VOR.py`
+
+Place the executable in path.
+
+Call the compiler with the target file as the argument. For example:
+
+`VOR main.vor`
+
+This will generate an executable of your VOR-code.
