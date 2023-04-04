@@ -1,5 +1,6 @@
 import sys
-from time import sleep
+import os
+# from time import sleep
 
 # Known last words in a data type. Does not include custom data types
 # Todo: Add detection of typedef's that add to this list
@@ -135,7 +136,6 @@ def check_function_declarations():
     brace_level = 0
     for i in range(len(code)):
         if code[i] == "(" and parenthesis_level == 0 and brace_level == 0:
-            print(code[i-5:i+5])
             potential_function = code[:i].split()[-1].strip(" \n\t\r")
             if potential_function not in ["main"] and potential_function[-1].isalnum():
                 error_function_declarations()
@@ -148,10 +148,25 @@ def check_function_declarations():
         elif code[i] == "}":
             brace_level -= 1
 
+def create_cpp_file():
+    code = get_code()
+    cpp_file_name = sys.argv[1][:-2] + ".cpp"
+    file = open(cpp_file_name, "w")
+    file.write(code)
+    file.close()
+    return cpp_file_name
+
+def delete_cpp_file(cpp_file_name):
+    os.remove(cpp_file_name)
+
         
 def main():
     check_num_arguments()
     check_function_calls()
     check_function_declarations()
+
+    cpp_file_name = create_cpp_file()
+    os.system(f"g++ {cpp_file_name} -o {sys.argv[1][:-3]}exe")
+    delete_cpp_file(cpp_file_name)
 
 main()
