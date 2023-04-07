@@ -1,6 +1,5 @@
 import sys
 import os
-# from time import sleep
 
 # Known last words in a data type. Does not include custom data types
 # Todo: Add detection of typedef's that add to this list
@@ -30,6 +29,10 @@ def error_could_not_find_main_body():
 
 def error_function_calls_not_to_main():
     print("Error: Function call to a function other than main is found. This is not the way of VOR.")
+    sys.exit(1)
+
+def error_loop():
+    print("Error: Loop found. This is not the way of VOR.")
     sys.exit(1)
 
 def error_function_declarations():
@@ -117,7 +120,7 @@ def check_num_arguments():
     if len(sys.argv) != 2:
         error_invalid_number_of_arguments()
 
-def check_function_calls():
+def check_function_calls_and_loops():
     main_body = get_main_body()
 
     # Look for cases of where '(' is used
@@ -127,8 +130,11 @@ def check_function_calls():
             continue
         potential_function = part.split()[-1].strip(" \n\t\r")
         # Determine if this is an illegal function call
-        if potential_function not in ["main", "for", "while", "if", "switch", "return"] and potential_function[-1].isalnum():
-            error_function_calls_not_to_main()
+        if potential_function[-1].isalnum():
+            if potential_function not in ["main", "for", "while", "if", "switch", "return"]:
+                error_function_calls_not_to_main()
+            elif potential_function in ["for", "while"]: # There is a loop
+                error_loop()
 
 def check_function_declarations():
     code = remove_comments(get_code())
@@ -162,7 +168,7 @@ def delete_cpp_file(cpp_file_name):
         
 def main():
     check_num_arguments()
-    check_function_calls()
+    check_function_calls_and_loops()
     check_function_declarations()
 
     cpp_file_name = create_cpp_file()
