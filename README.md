@@ -6,13 +6,13 @@
 VOR (VOR has Only Recursion) is a strictly recursive programming language.
 
 ## How is VOR's syntax?
-Think C++, but with no other functions than main(). That's about all you need to know.
+Think C++, but with no other functions than main() and for- or while-loops. That's about all you need to know.
 
 ## Isn't it a bit of a stretch calling VOR a programming language when it's just C++ with extra rules?
 Probably.
 
 ## Who is VOR made for?
-VOR is made for the enlightened ones that have realized recursion is all one needs. Other functions? That's just bloat. All you need is main() and recursion.
+VOR is made for the enlightened ones that have realized recursion is all one needs. Other functions? Loops? That's just bloat. All you need is main() and recursion.
 
 ## Should I start using VOR in my programming projects?
 Not really.
